@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+
+	
+	<input	type="button" id="obtener_datos" value="Obtener Datos"/>
+
+	<br/>
+
+	<div id="mi_div"></div>
+
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			console.log("Bienvenidos");
+
+			$('#obtener_datos').on('click', function(event) {
+				event.preventDefault();
+				//console.log("Hola despues del click");
+				$.ajax({
+					url : 'http://carbono.utpl.edu.ec:8080/WSSearcher/webresources/serendipityrest?q=java&apikey=123456&source=source&callback=?',
+					type : 'GET',
+					dataType : 'json',
+					success : function(data){
+						cadena = "";
+						cadena = cadena + "<ul>";
+						$.each(data.results, function(k, v){
+							for(var i=0; i<v.length; i++) {
+								console.log("Titulo: " +v[i].title);
+								cadena = cadena+"<b><li> Titulo: "+"</b>"+"<i>"+v[i].title+"</li></i>";
+								console.log("Url: " +v[i].url);
+								cadena = cadena+"<br><b>Url: "+"</b>"+"<i>"+v[i].url+"</i>";						
+								console.log("Universidad: " +v[i].university_name);
+								cadena = cadena+"<br><b>Universidad: "+"</b>"+"<i>"+v[i].university_name+"</i>";
+								console.log("Lenguaje: " + v[i].language);
+								cadena = cadena+"<br><b> Lenguaje: "+"</b>"+"<i>"+v[i].language+"</i>";
+								cadena = cadena+"<br></br>";
+							}
+
+						});
+						cadena = cadena + "</ul>";
+						//console.log(cadena);
+						$midiv = $('#mi_div');
+						$midiv.html(cadena);
+					}
+				});
+
+			});
+		});
+
+
+	</script>
+
+</body>
+</html>
